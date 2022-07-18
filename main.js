@@ -110,32 +110,32 @@ function generateOneNumber() {
 
 $(document).keydown(function (event) {
 	switch (event.keyCode) {
-		case 37://left
-		event.preventDefault();
+		case 37 ://left
+		case 65 :
 			if (moveLeft()) {
 				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()",300);
+				setTimeout("isgameover()", 300);
 			}
 			break;
-		case 38://up
-		event.preventDefault();
+		case 38:
+		case 87://up
 			if (moveTop()) {
 				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()",300);
+				setTimeout("isgameover()", 300);
 			}
 			break;
 		case 39://right
-		event.preventDefault();
+		case 68:
 			if (moveRight()) {
 				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()",300);
+				setTimeout("isgameover()", 300);
 			}
 			break;
 		case 40://down
-		event.preventDefault();
+		case 83:
 			if (moveBottom()) {
 				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()",300);
+				setTimeout("isgameover()", 300);
 			}
 			break;
 		default:
