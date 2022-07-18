@@ -1,37 +1,43 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<title>2048</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, height=device-height,initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-You can use the [editor on GitHub](https://github.com/grady0307/grady0307.github.io-/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+	<link rel="stylesheet" type="text/css" href="2048.css">
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/grady0307/grady0307.github.io-/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+	<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript" src="showanimation.js"></script>
+	<script type="text/javascript" src="support.js"></script>
+</head>
+<body>
+	<header>
+	<h1>2048</h1>
+	<a href="javascript:newgame();" id="newgamebutton">新游戏</a>
+	<p>得分:<span id="score">0</span></p>
+	</header>
+	
+	<div id="grid-container">
+		<div class="grid-cell" id="grid-cell-0-0"></div>
+		<div class="grid-cell" id="grid-cell-0-1"></div>
+		<div class="grid-cell" id="grid-cell-0-2"></div>
+		<div class="grid-cell" id="grid-cell-0-3"></div>
+		<div class="grid-cell" id="grid-cell-1-0"></div>
+		<div class="grid-cell" id="grid-cell-1-1"></div>
+		<div class="grid-cell" id="grid-cell-1-2"></div>
+		<div class="grid-cell" id="grid-cell-1-3"></div>
+		<div class="grid-cell" id="grid-cell-2-0"></div>
+		<div class="grid-cell" id="grid-cell-2-1"></div>
+		<div class="grid-cell" id="grid-cell-2-2"></div>
+		<div class="grid-cell" id="grid-cell-2-3"></div>
+		<div class="grid-cell" id="grid-cell-3-0"></div>
+		<div class="grid-cell" id="grid-cell-3-1"></div>
+		<div class="grid-cell" id="grid-cell-3-2"></div>
+		<div class="grid-cell" id="grid-cell-3-3"></div>
+	</div>
+</body>
+</html>
