@@ -1,31 +1,33 @@
 var board = new Array();
 var score = 0;
+var bestscore = 0;
+var startx = 0;
+var starty = 0;
+var endx = 0;
+var endy = 0;
 
-var startx=0;
-var starty=0;
-var endx=0;
-var endy=0;
 $(document).ready(function () {
 	prepareForMobile();
 	newgame();
 
 });
 
-function prepareForMobile(){
-	if(documentWidth>500){
-		gridContainerWidth=500;
-		cellSpace=20;
-		cellSideLength=100;
+function prepareForMobile() {
+	if (documentWidth > 500) {
+		gridContainerWidth = 500;
+		cellSpace = 20;
+		cellSideLength = 100;
 	}
-
-	$("#grid-container").css("width",gridContainerWidth- 2*cellSpace);
-	$("#grid-container").css("height",gridContainerWidth- 2*cellSpace);
-	$("#grid-container").css("padding",cellSpace);
-	$("#grid-container").css("border-radius",0.02*gridContainerWidth);
-
-	$(".grid-cell").css("width",cellSideLength);
-	$(".grid-cell").css("height",cellSideLength);
-	$(".grid-cell").css("border-radius",0.02*cellSideLength);
+	$("#container").css("width", gridContainerWidth);
+	$("#header h1").css("font-size", 0.2 * gridContainerWidth);
+	$("#grid-container").css("width", gridContainerWidth - 2 * cellSpace);
+	$("#grid-container").css("height", gridContainerWidth - 2 * cellSpace);
+	$("#grid-container").css("padding", cellSpace);
+	$("#grid-container").css("border-radius", 0.02 * gridContainerWidth);
+	$("#gameover").css("margin-top", 0.44 * gridContainerWidth);
+	$(".grid-cell").css("width", cellSideLength);
+	$(".grid-cell").css("height", cellSideLength);
+	$(".grid-cell").css("border-radius", 0.02 * cellSideLength);
 }
 
 function newgame() {
@@ -50,8 +52,9 @@ function init() {
 			board[i][j] = 0;
 	}
 	updataBoardView();
-	score=0;
+	score = 0;
 	updataScore(score);
+	$("#game-message").hide();
 }
 
 function updataBoardView() {
@@ -63,8 +66,8 @@ function updataBoardView() {
 			if (board[i][j] == 0) {
 				theNumbercell.css('width', '0px');
 				theNumbercell.css('heigth', '0px');
-				theNumbercell.css('top', getPosTop(i, j) + cellSideLength/2);
-				theNumbercell.css('left', getPosLeft(i, j) + cellSideLength/2);
+				theNumbercell.css('top', getPosTop(i, j) + cellSideLength / 2);
+				theNumbercell.css('left', getPosLeft(i, j) + cellSideLength / 2);
 			}
 			else {
 				theNumbercell.css('width', cellSideLength);
@@ -73,11 +76,11 @@ function updataBoardView() {
 				theNumbercell.css('left', getPosLeft(i, j));
 				theNumbercell.css("background-color", getNumberBackgroundColor(board[i][j]));
 				theNumbercell.css("color", getNumberColor(board[i][j]));
+				theNumbercell.css("font-size", getNumberSize(board[i][j]));
 				theNumbercell.text(board[i][j]);
 			}
 		}
-	$(".number-cell").css("line-height",cellSideLength+"px");
-	$(".number-cell").css("font-size",0.6*cellSideLength+'px');
+	$(".number-cell").css("line-height", cellSideLength + "px");
 }
 
 function generateOneNumber() {
@@ -85,20 +88,20 @@ function generateOneNumber() {
 		return false;
 	var randx = parseInt(Math.floor(Math.random() * 4));
 	var randy = parseInt(Math.floor(Math.random() * 4));
-	var times=0;
-	while (times<50) {
+	var times = 0;
+	while (times < 50) {
 		if (board[randx][randy] == 0)
 			break;
 		randx = parseInt(Math.floor(Math.random() * 4));
 		randy = parseInt(Math.floor(Math.random() * 4));
 		times++;
 	}
-	if(times==50){
-		for(var i=0;i<4;i++)
-			for(var j=0;j<4;j++){
-				if(board[i][j]==0){
-					randx=i;
-					randy=j;
+	if (times == 50) {
+		for (var i = 0; i < 4; i++)
+			for (var j = 0; j < 4; j++) {
+				if (board[i][j] == 0) {
+					randx = i;
+					randy = j;
 				}
 			}
 	}
@@ -109,83 +112,90 @@ function generateOneNumber() {
 }
 
 $(document).keydown(function (event) {
-	switch (event.keyCode) {
-		case 37 ://left
-		case 65 :
-			if (moveLeft()) {
-				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()", 300);
-			}
-			break;
-		case 38:
-		case 87://up
-			if (moveTop()) {
-				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()", 300);
-			}
-			break;
-		case 39://right
-		case 68:
-			if (moveRight()) {
-				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()", 300);
-			}
-			break;
-		case 40://down
-		case 83:
-			if (moveBottom()) {
-				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()", 300);
-			}
-			break;
-		default:
-			break;
+	if (!ClikCheck()) {
+		switch (event.keyCode) {
+			case 37://left
+			case 65:
+				event.preventDefault();
+				if (moveLeft()) {
+					setTimeout("generateOneNumber()", 210);
+					setTimeout("isgameover()", 300);
+				}
+				break;
+			case 38:
+			case 87://up
+				event.preventDefault();
+				if (moveTop()) {
+					setTimeout("generateOneNumber()", 210);
+					setTimeout("isgameover()", 300);
+				}
+				break;
+			case 39://right
+			case 68:
+				event.preventDefault();
+				if (moveRight()) {
+					setTimeout("generateOneNumber()", 210);
+					setTimeout("isgameover()", 300);
+				}
+				break;
+			case 40://down
+			case 83:
+				event.preventDefault();
+				if (moveBottom()) {
+					setTimeout("generateOneNumber()", 210);
+					setTimeout("isgameover()", 300);
+				}
+				break;
+			default:
+				break;
+		}
 	}
 })
 
-document.addEventListener('touchstart' ,  function (event) {
-	startx=event.touches[0].pageX;
-	starty=event.touches[0].pageY;
-})
+document.addEventListener('touchstart', function (event) {
+	startx = event.touches[0].pageX;
+	starty = event.touches[0].pageY;
+});
 
-document.addEventListener("touchmove",function(event){
+document.addEventListener("touchmove", function (event) {
 	event.preventDefault();
-})
-document.addEventListener('touchend' ,  function (event) {
-	endx=event.changedTouches[0].pageX;
-	endy=event.changedTouches[0].pageY;
+}, { passive: false });
 
-	var deltax =endx -startx;
-	var deltay =endy-starty;
 
-	if(Math.abs(deltax)<0.3*documentWidth&&Math.abs(deltay)<0.3*documentWidth){
-		return ;
+document.addEventListener('touchend', function (event) {
+	endx = event.changedTouches[0].pageX;
+	endy = event.changedTouches[0].pageY;
+
+	var deltax = endx - startx;
+	var deltay = endy - starty;
+	if (Math.abs(deltax) < 0.1 * documentWidth && Math.abs(deltay) < 0.1 * documentWidth) {
+		return;
 	}
-	if(Math.abs(deltax)>=Math.abs(deltay)){
-		if(deltax>0){
+	if (Math.abs(deltax) >= Math.abs(deltay)) {
+		if (deltax > 0) {
 			if (moveRight()) {
 				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()",300);
+				setTimeout("isgameover()", 300);
 			}
 		}
-		else{
+		else {
 			if (moveLeft()) {
 				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()",300);
+				setTimeout("isgameover()", 300);
 			}
 		}
 	}
-	else{
-		if(deltay>0){
+	else {
+		if (deltay > 0) {
 			if (moveBottom()) {
 				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()",300);
+				setTimeout("isgameover()", 300);
 			}
 		}
-		else{
+		else {
 			if (moveTop()) {
 				setTimeout("generateOneNumber()", 210);
-				setTimeout("isgameover()",300);
+				setTimeout("isgameover()", 300);
 			}
 		}
 	}
@@ -213,8 +223,12 @@ function moveLeft() {
 						//add
 						board[i][k] = board[i][k] + board[i][j];
 						board[i][j] = 0;
-						score+=board[i][k];
+						score += board[i][k];
 						updataScore(score);
+						if (score > bestscore) {
+							bestscore = score;
+							updataBestScore(bestscore);
+						}
 						hasCombin[k] = true;
 						continue;
 					}
@@ -246,8 +260,12 @@ function moveRight() {
 						showMoveAnimation(i, j, i, k);
 						board[i][k] = board[i][k] + board[i][j];
 						board[i][j] = 0;
-						score+=board[i][k];
+						score += board[i][k];
 						updataScore(score);
+						if (score > bestscore) {
+							bestscore = score;
+							updataBestScore(bestscore);
+						}
 						hasCombin[k] = true;
 						continue;
 					}
@@ -279,8 +297,12 @@ function moveTop() {
 						showMoveAnimation(j, i, k, i);
 						board[k][i] += board[j][i];
 						board[j][i] = 0;
-						score+=board[k][i];
+						score += board[k][i];
 						updataScore(score);
+						if (score > bestscore) {
+							bestscore = score;
+							updataBestScore(bestscore);
+						}
 						hasCombin[k] = true;
 						continue;
 					}
@@ -311,8 +333,12 @@ function moveBottom() {
 						showMoveAnimation(i, j, k, j);
 						board[k][j] += board[i][j];
 						board[i][j] = 0;
-						score+=board[k][i];
+						score += board[k][i];
 						updataScore(score);
+						if (score > bestscore) {
+							bestscore = score;
+							updataBestScore(bestscore);
+						}
 						hasCombin[k] = true;
 						continue;
 					}
@@ -326,11 +352,11 @@ function moveBottom() {
 }
 
 function isgameover() {
-	if(nospace(board)&&nomove(board)){
+	if (nospace(board) && nomove(board)) {
 		gameover();
 	}
 }
 
-function gameover(){
-	alert("gameover!");
+function gameover() {
+	$(":hidden").show(1000);
 }

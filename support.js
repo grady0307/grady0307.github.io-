@@ -2,13 +2,15 @@ documentWidth = window.screen.availWidth;
 gridContainerWidth = 0.92 * documentWidth;
 cellSideLength = 0.18 * documentWidth;
 cellSpace = 0.04 * documentWidth;
+var MinclickDelayTime = 100;
+var LastClikTime = 0;
 
 function getPosTop(i, j) {
-	return cellSpace + i * (cellSideLength+cellSpace);
+	return cellSpace + i * (cellSideLength + cellSpace);
 }
 
 function getPosLeft(i, j) {
-	return cellSpace + j * (cellSideLength+cellSpace);
+	return cellSpace + j * (cellSideLength + cellSpace);
 }
 
 function getNumberBackgroundColor(number) {
@@ -35,6 +37,22 @@ function getNumberColor(number) {
 		return "#776e65";
 	}
 	return "white";
+}
+
+function getNumberSize(number) {
+	if (number < 10) {
+		return 0.6 * cellSideLength + "px";
+	}
+	else if (number < 100) {
+		return 0.55 * cellSideLength + "px";
+	}
+	else if (number < 1000) {
+		return 0.5 * cellSideLength + "px";
+	}
+	else if (number < 10000) {
+		return 0.45 * cellSideLength + "px";
+	}
+	return 0.45 * cellSideLength + "px";
 }
 
 function nospace(board) {
@@ -109,3 +127,16 @@ function nomove(board) {
 		return false;
 	return true;
 }
+
+function ClikCheck() {
+	var flag = false;
+	var d=new Date();
+	var curClickTime = d.getTime();
+	if (curClickTime - LastClikTime > MinclickDelayTime)
+		flag = false;
+	else
+		flag = true;
+	LastClikTime = curClickTime;
+	return flag;
+}
+

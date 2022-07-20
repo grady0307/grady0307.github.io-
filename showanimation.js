@@ -3,7 +3,7 @@ function showNumberWithAnimation(i, j, randNumber) {
 	numberCell.css("background-color", getNumberBackgroundColor(randNumber));
 	numberCell.css("color", getNumberColor(randNumber));
 	numberCell.text(randNumber);
-
+	numberCell.css("font-size",getNumberSize(randNumber));
 	numberCell.animate({
 		width: cellSideLength,
 		height: cellSideLength,
@@ -22,11 +22,9 @@ function showMoveAnimation(fromx, fromy, tox, toy) {
 
 function updataScore(score){
 	var Score=$("#score");
-	Score.animate({
-		fontSize:"30px"
-	},50);
-	Score.animate({
-		fontSize:"15px"
-	},50);
 	$("#score").text(score);
+}
+function updataBestScore(bestscore){
+	var BestScore=$("#best-score");
+	$("#best-score").text(bestscore);
 }
